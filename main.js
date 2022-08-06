@@ -2,7 +2,7 @@ var counter = 0
 
 
 
-function generatebtn(_id, content, entryId) {
+function generateBtn(_id, content, entryId) {
 
     let btnDiv = document.createElement('div')
     let btn = document.createElement("button")
@@ -53,7 +53,7 @@ function addTask() {
         entry.id = "task" + counter;
         entry.style.minHeight = '40px'
         entry.appendChild(generateDescr("descr" + counter, task.value))
-        entry.appendChild(generatebtn("delBtn" + counter, "del", entry.id))
+        entry.appendChild(generateBtn("delBtn" + counter, "del", entry.id))
 
         list.appendChild(entry)
 
