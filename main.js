@@ -13,7 +13,7 @@ class Task {
 function triggerTest() {
     fetch('https://pilvitask.azurewebsites.net/api/HttpTrigger1?code=BVC3Nck6PmrJtDFbC-LXeGlxMLTPPK3gA0J9MDSJVpUtAzFujWu5WA==')
         .then((response) => response.json())
-        .then((data) => taskList.push(JSON.parse(data)));
+        .then((data) => taskList.push(data));
     console.log(taskList)
 }
 
