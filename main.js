@@ -11,9 +11,11 @@ class Task {
 }
 
 async function triggerTest() {
+    document.getElementById('trigbtn').disabled = true;
     await fetch('https://pilvitask.azurewebsites.net/api/HttpTrigger1?code=BVC3Nck6PmrJtDFbC-LXeGlxMLTPPK3gA0J9MDSJVpUtAzFujWu5WA==')
         .then((response) => response.json())
         .then((data) => taskList.push(data));
+    document.getElementById('trigbtn').disabled = false;
     console.log(taskList)
 }
 
