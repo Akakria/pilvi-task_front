@@ -1,5 +1,22 @@
 var counter = 0
 
+var taskList = []
+
+
+class Task {
+    constructor(id, label, descr) {
+        this.id = id + Date.now()
+        this.descr = descr
+    }
+}
+
+function triggerTest() {
+    fetch('https://pilvitask.azurewebsites.net/api/HttpTrigger1?code=BVC3Nck6PmrJtDFbC-LXeGlxMLTPPK3gA0J9MDSJVpUtAzFujWu5WA==')
+        .then((response) => response.json())
+        .then((data) => taskList.push(JSON.parse(data)));
+    console.log(taskList)
+}
+
 
 
 function generateBtn(_id, content, entryId) {
@@ -32,41 +49,42 @@ function generateDescr(_id, content) {
 }
 
 
+
 function delItem(_id) {
     console.log("delete " + _id)
     document.getElementById(_id).remove()
 }
 
-function triggerTest() {
-    fetch('https://pilvitask.azurewebsites.net/api/HttpTrigger1?code=BVC3Nck6PmrJtDFbC-LXeGlxMLTPPK3gA0J9MDSJVpUtAzFujWu5WA==')
-        .then((response) => response.json())
-        .then((data) => console.log(data));
 
-}
 
-function addTask() {
+function addTask(local = true) {
 
-    const task = document.querySelector("input")
+    if (local != true) {
 
-    if (task.value.length != 0) {
-
-        let list = document.querySelector("ul")
-
-        let entry = document.createElement('div')
-
-        entry.classList.add("taskitem")
-        entry.id = "task" + counter;
-        entry.style.minHeight = '40px'
-        entry.appendChild(generateDescr("descr" + counter, task.value))
-        entry.appendChild(generateBtn("delBtn" + counter, "del", entry.id))
-
-        list.appendChild(entry)
-
-        counter++
-
-        task.value = null
     }
     else {
-        alert("No Task Specified!")
+        const task = document.querySelector("input")
+
+        if (task.value.length != 0) {
+
+            let list = document.querySelector("ul")
+
+            let entry = document.createElement('div')
+
+            entry.classList.add("taskitem")
+            entry.id = "task" + counter;
+            entry.style.minHeight = '40px'
+            entry.appendChild(generateDescr("descr" + counter, task.value))
+            entry.appendChild(generateBtn("delBtn" + counter, "del", entry.id))
+
+            list.appendChild(entry)
+
+            counter++
+
+            task.value = null
+        }
+        else {
+            alert("No Task Specified!")
+        }
     }
 }
