@@ -4,22 +4,47 @@ var taskList = []
 const btn = document.getElementById('trigbtn')
 const taskDescr = document.getElementById('taskname')
 const taskView = document.querySelector('ul')
+const placeholderUser = "Placeholder"
 
 
 
 class Task {
     constructor(id, descr) {
-        this.id = id + Date.now()
+        this._id = id + Date.now()
         this.descr = descr
     }
 }
 
+function taskDbCreate(task) {
+    fetch('https://pilvitask.azurewebsites.net/api/HttpPost-item?code=qFcPADTnx50Q73Py-HyTqmSDy4-rwof-4EYpDV8zXrW9AzFuBXQHlQ==', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(task)
+    })
+}
 
+function taskDbInit() {
+    fetch('https://pilvitask.azurewebsites.net/api/initnewdb?code=LbFycdQTMZQBf-qY8hPHL9R0ra0jaDviv8RLpBGC50T9AzFuft_dGw==')
+}
 
-async function triggerTest() {
+function taskDbRemove() {
+    fetch('')
+}
+
+function taskDbUpdate() {
+    fetch('')
+}
+
+function taskDbGet() {
+    fetch('')
+}
+
+function triggerTest() {
     btn.disabled = true;
 
-    await fetch('https://pilvitask.azurewebsites.net/api/HttpTrigger1?code=BVC3Nck6PmrJtDFbC-LXeGlxMLTPPK3gA0J9MDSJVpUtAzFujWu5WA==')
+    fetch('https://pilvitask.azurewebsites.net/api/HttpTrigger1?code=BVC3Nck6PmrJtDFbC-LXeGlxMLTPPK3gA0J9MDSJVpUtAzFujWu5WA==')
         .then((response) => response.json())
         .then((data) => taskList.push(data));
 
@@ -53,6 +78,7 @@ function taskToList() {
         const localTask = new Task("task" + Date.now(), taskDescr.value)
         taskList.push(localTask)
         taskInput.value = null
+        taskDbCreate(localTask)
         updateView()
     }
     else {
