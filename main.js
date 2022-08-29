@@ -48,7 +48,7 @@ function taskDbGet() {
     return fetch('https://pilvitask.azurewebsites.net/api/HttpGet-list?code=WoBE7q/IO1beKlDvlGAc92nttkxE3FQI2ReFEF4PXTm4i1QyDv20rQ==&clientId=apim-PilviTask-apim')
 }
 
-function triggerTest() {
+/* function triggerTest() {
     btn.disabled = true;
 
     fetch('https://pilvitask.azurewebsites.net/api/HttpTrigger1?code=BVC3Nck6PmrJtDFbC-LXeGlxMLTPPK3gA0J9MDSJVpUtAzFujWu5WA==')
@@ -58,16 +58,21 @@ function triggerTest() {
     updateView()
     btn.disabled = false;
 }
+ */
 
 function fetchTasks() {
     fetchBtn.disabled = true;
     taskDbGet().then((res) => res.json()).then((data) => {
+        taskList = []
         for (let task of data) {
             taskList.push(task)
         }
+        updateView();
+        fetchBtn.disabled = false;
+    }).catch(error => {
+        alert('Fetching tasks failed')
+        fetchBtn.disabled = false;
     });
-    updateView();
-    fetchBtn.disabled = false;
 }
 
 
@@ -147,10 +152,14 @@ function generateDescr(_id, content) {
 
 
 function delItem(taskId, entryId) {
+    document.getElementById(entryId).disabled = true
     taskList = taskList.filter(task => task._id !== taskId)
     taskDbRemove(taskId).then(() => {
         document.getElementById(entryId).remove()
-    })
+    }).catch(error => {
+        alert('Deleting task failed')
+        document.getElementById(entryId).disabled = false
+    });
 }
 
 
