@@ -2,6 +2,7 @@ var counter = 0
 
 var taskList = []
 const btn = document.getElementById('trigbtn')
+const fetchBtn = document.getElementById('fetchbtn')
 const taskDescr = document.getElementById('taskname')
 const taskView = document.querySelector('ul')
 const placeholderUser = "Placeholder"
@@ -38,7 +39,7 @@ function taskDbUpdate() {
 }
 
 function taskDbGet() {
-    fetch('')
+    fetch('https://pilvitask.azurewebsites.net/api/HttpGet-list?code=WoBE7q/IO1beKlDvlGAc92nttkxE3FQI2ReFEF4PXTm4i1QyDv20rQ==&clientId=apim-PilviTask-apim')
 }
 
 function triggerTest() {
@@ -52,6 +53,16 @@ function triggerTest() {
     btn.disabled = false;
 }
 
+function fetchTasks() {
+    fetchBtn.disabled = true;
+    taskDbGet().then((res) => res.json()).then((data) => {
+        for (let task of data) {
+            taskList.push(task)
+        }
+    });
+    updateView();
+    fetchBtn.disabled = false;
+}
 
 
 function updateView() {
