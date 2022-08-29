@@ -11,7 +11,7 @@ const placeholderUser = "Placeholder"
 
 class Task {
     constructor(id, descr) {
-        this._id = id + Date.now()
+        this._id = id
         this.descr = descr
     }
 }
@@ -30,12 +30,18 @@ function taskDbInit() {
     fetch('https://pilvitask.azurewebsites.net/api/initnewdb?code=LbFycdQTMZQBf-qY8hPHL9R0ra0jaDviv8RLpBGC50T9AzFuft_dGw==')
 }
 
-function taskDbRemove() {
-    fetch('')
+function taskDbRemove(taskId) {
+    return fetch('https://pilvitask.azurewebsites.net/api/HttpRemove?code=WoBE7q/IO1beKlDvlGAc92nttkxE3FQI2ReFEF4PXTm4i1QyDv20rQ==&clientId=apim-PilviTask-apim', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(taskId)
+    })
 }
 
 function taskDbUpdate() {
-    fetch('')
+    fetch('https://pilvitask.azurewebsites.net/api/HttpUpdate?code=WoBE7q/IO1beKlDvlGAc92nttkxE3FQI2ReFEF4PXTm4i1QyDv20rQ==&clientId=apim-PilviTask-apim')
 }
 
 function taskDbGet() {
@@ -74,10 +80,11 @@ function updateView() {
 
 function taskToView(task) {
     let entry = document.createElement('div')
-    entry.id = "entry_" + task.id
+    entry.id = task._id
     entry.style.minHeight = '40px'
-    entry.appendChild(generateDescr("descr" + task.id, task.descr))
-    entry.appendChild(generateBtn(task.id, "Del", entry.id))
+    entry.appendChild(generateDescr("descr" + task._id, task.descr))
+    entry.appendChild(generateBtn(task._id, "Delete", entry.id))
+    entry.appendChild(generateBtn(task._id, "Modify", entry.id))
     taskView.appendChild(entry)
 }
 
@@ -89,6 +96,7 @@ function taskToList() {
         const localTask = new Task("task" + Date.now(), taskDescr.value)
         taskList.push(localTask)
         taskInput.value = null
+        console.log("localTask = " + localTask._id);
         taskDbCreate(localTask)
         updateView()
     }
@@ -106,9 +114,16 @@ function generateBtn(_id, content, entryId) {
 
     btn.id = "btn" + _id
     btn.innerHTML = content
-    btn.onclick = function () {
-        delItem(_id, entryId);
+    if (content == "Delete") {
+        btn.onclick = function () {
+            delItem(_id, entryId);
+        }
+    } else {
+        btn.onclick = function () {
+            // delItem(_id, entryId);
+        }
     }
+
     btnDiv.appendChild(btn)
     btnDiv.style.float = 'right'
 
@@ -122,6 +137,7 @@ function generateDescr(_id, content) {
     let descr = document.createElement('div')
 
     descr.id = _id
+    console.log("descr.id = " + descr.id);
     descr.appendChild(document.createTextNode(content));
     descr.style.float = 'left'
 
@@ -131,8 +147,10 @@ function generateDescr(_id, content) {
 
 
 function delItem(taskId, entryId) {
-    taskList = taskList.filter(task => task.id !== taskId)
-    document.getElementById(entryId).remove()
+    taskList = taskList.filter(task => task._id !== taskId)
+    taskDbRemove(taskId).then(() => {
+        document.getElementById(entryId).remove()
+    })
 }
 
 
