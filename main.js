@@ -39,7 +39,7 @@ function taskDbUpdate() {
 }
 
 function taskDbGet() {
-    fetch('https://pilvitask.azurewebsites.net/api/HttpGet-list?code=WoBE7q/IO1beKlDvlGAc92nttkxE3FQI2ReFEF4PXTm4i1QyDv20rQ==&clientId=apim-PilviTask-apim')
+    return fetch('https://pilvitask.azurewebsites.net/api/HttpGet-list?code=WoBE7q/IO1beKlDvlGAc92nttkxE3FQI2ReFEF4PXTm4i1QyDv20rQ==&clientId=apim-PilviTask-apim')
 }
 
 function triggerTest() {
