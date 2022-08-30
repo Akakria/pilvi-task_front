@@ -48,8 +48,8 @@ function taskDbUpdate(taskId, taskText) {
             'Content-Type': 'application/json'
         },
         body: {
-            id: JSON.stringify(taskId),
-            descr: JSON.stringify(taskText)
+            "id": JSON.stringify(taskId),
+            "descr": JSON.stringify(taskText)
         }
     })
 }
