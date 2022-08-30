@@ -6,17 +6,19 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TaskApp</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css">
 </head>
 
 <body>
     <div style="text-align:center">
         <div>
             <h1>Pilvi-Tasks</h1>
-
         </div>
-        <div>
+        <div style="text-align: center;">
             <label>Task: </label>
             <input type="text" id="taskname" name="taskname">
+            <button type="button" id="savebtn" onclick="handleEdit(true)" style="display: none;">Save</button>
+            <button type="button" id="cancelbtn" onclick="handleEdit(false)" style="display: none;">Cancel</button>
             <button type="button" id="addbtn" onclick="taskToList()">New task</button>
             <button type="button" id="fetchbtn" onclick="fetchTasks()">Fetch tasks</button>
         </div>

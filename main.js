@@ -6,6 +6,7 @@ const fetchBtn = document.getElementById('fetchbtn')
 const taskDescr = document.getElementById('taskname')
 const taskView = document.querySelector('ul')
 const placeholderUser = "Placeholder"
+let taskIdToEdit = ''
 
 
 
@@ -40,8 +41,17 @@ function taskDbRemove(taskId) {
     })
 }
 
-function taskDbUpdate() {
-    fetch('https://pilvitask.azurewebsites.net/api/HttpUpdate?code=WoBE7q/IO1beKlDvlGAc92nttkxE3FQI2ReFEF4PXTm4i1QyDv20rQ==&clientId=apim-PilviTask-apim')
+function taskDbUpdate(taskId, taskText) {
+    return fetch('https://pilvitask.azurewebsites.net/api/HttpUpdate?code=WoBE7q/IO1beKlDvlGAc92nttkxE3FQI2ReFEF4PXTm4i1QyDv20rQ==&clientId=apim-PilviTask-apim', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: {
+            id: JSON.stringify(taskId),
+            descr: JSON.stringify(taskText)
+        }
+    })
 }
 
 function taskDbGet() {
@@ -89,7 +99,7 @@ function taskToView(task) {
     entry.style.minHeight = '40px'
     entry.appendChild(generateDescr("descr" + task._id, task.descr))
     entry.appendChild(generateBtn(task._id, "Delete", entry.id))
-    entry.appendChild(generateBtn(task._id, "Modify", entry.id))
+    entry.appendChild(generateBtn(task._id, "Edit", entry.id))
     taskView.appendChild(entry)
 }
 
@@ -125,7 +135,7 @@ function generateBtn(_id, content, entryId) {
         }
     } else {
         btn.onclick = function () {
-            // delItem(_id, entryId);
+            startEdit(_id, entryId);
         }
     }
 
@@ -160,6 +170,37 @@ function delItem(taskId, entryId) {
         alert('Deleting task failed')
         document.getElementById(entryId).disabled = false
     });
+}
+
+function startEdit(taskId, entryId) {
+    for (const task of taskList) {
+        if (task._id == taskId) {
+            taskDescr.value = task.descr
+        }
+    }
+    taskIdToEdit = taskId
+    document.getElementById('addbtn').style.display = "none"
+    document.getElementById('fetchbtn').style.display = "none"
+    document.getElementById('savebtn').style.display = "inline"
+    document.getElementById('cancelbtn').style.display = "inline"
+}
+
+function handleEdit(saved) {
+    if (saved) {
+        taskDbUpdate(taskIdToEdit, taskDescr.value).then(() => {
+            for (const task of taskList) {
+                if (task._id == taskIdToEdit) {
+                    task.descr = taskDescr.value
+                }
+            }    
+            updateView()            
+            taskDescr.value = null
+            document.getElementById('addbtn').style.display = "inline"
+            document.getElementById('fetchbtn').style.display = "inline"
+            document.getElementById('savebtn').style.display = "none"
+            document.getElementById('cancelbtn').style.display = "none"        
+        })
+    }
 }
 
 
