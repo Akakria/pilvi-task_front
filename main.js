@@ -42,15 +42,16 @@ function taskDbRemove(taskId) {
 }
 
 function taskDbUpdate(taskId, taskText) {
+    const object = {
+        id: taskId,
+        descr: taskText
+    }
     return fetch('https://pilvitask.azurewebsites.net/api/HttpUpdate?code=WoBE7q/IO1beKlDvlGAc92nttkxE3FQI2ReFEF4PXTm4i1QyDv20rQ==&clientId=apim-PilviTask-apim', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
         },
-        body: {
-            "id": JSON.stringify(taskId),
-            "descr": JSON.stringify(taskText)
-        }
+        body: JSON.stringify(object)
     })
 }
 
