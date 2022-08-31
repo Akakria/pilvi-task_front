@@ -18,7 +18,7 @@ class Task {
 }
 
 function taskDbCreate(task) {
-    fetch('https://pilvitask.azurewebsites.net/api/HttpPost-item?code=qFcPADTnx50Q73Py-HyTqmSDy4-rwof-4EYpDV8zXrW9AzFuBXQHlQ==', {
+    fetch('https://pilvitask-apim.azure-api.net/PilviTaskapi/HttpPost-item', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -26,13 +26,13 @@ function taskDbCreate(task) {
         body: JSON.stringify(task)
     })
 }
-
+/*
 function taskDbInit() {
-    fetch('https://pilvitask.azurewebsites.net/api/initnewdb?code=LbFycdQTMZQBf-qY8hPHL9R0ra0jaDviv8RLpBGC50T9AzFuft_dGw==')
+    fetch('https://pilvitask-apim.azure-api.net/PilviTaskapi/HttpInit-db')
 }
-
+*/
 function taskDbRemove(taskId) {
-    return fetch('https://pilvitask.azurewebsites.net/api/HttpRemove?code=WoBE7q/IO1beKlDvlGAc92nttkxE3FQI2ReFEF4PXTm4i1QyDv20rQ==&clientId=apim-PilviTask-apim', {
+    return fetch('https://pilvitask-apim.azure-api.net/PilviTaskapi/HttpRemove', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -46,7 +46,7 @@ function taskDbUpdate(taskId, taskText) {
         id: taskId,
         descr: taskText
     }
-    return fetch('https://pilvitask.azurewebsites.net/api/HttpUpdate?code=WoBE7q/IO1beKlDvlGAc92nttkxE3FQI2ReFEF4PXTm4i1QyDv20rQ==&clientId=apim-PilviTask-apim', {
+    return fetch('https://pilvitask-apim.azure-api.net/PilviTaskapi/HttpUpdate', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
