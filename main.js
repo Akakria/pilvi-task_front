@@ -56,7 +56,7 @@ function taskDbUpdate(taskId, taskText) {
 }
 
 function taskDbGet() {
-    return fetch('https://pilvitask.azurewebsites.net/api/HttpGet-list?code=WoBE7q/IO1beKlDvlGAc92nttkxE3FQI2ReFEF4PXTm4i1QyDv20rQ==&clientId=apim-PilviTask-apim')
+    return fetch('https://pilvitask-apim.azure-api.net/PilviTaskapi/HttpGet-list')
 }
 
 /* function triggerTest() {
@@ -193,13 +193,13 @@ function handleEdit(saved) {
                 if (task._id == taskIdToEdit) {
                     task.descr = taskDescr.value
                 }
-            }    
-            updateView()            
+            }
+            updateView()
             taskDescr.value = null
             document.getElementById('addbtn').style.display = "inline"
             document.getElementById('fetchbtn').style.display = "inline"
             document.getElementById('savebtn').style.display = "none"
-            document.getElementById('cancelbtn').style.display = "none"        
+            document.getElementById('cancelbtn').style.display = "none"
         })
     }
 }
